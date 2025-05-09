@@ -1,0 +1,42 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/credito-front/dist
+/credito-front/tmp
+/credito-front/out-tsc
+/credito-front/bazel-out
+
+# Node
+/credito-front/node_modules
+/credito-front/npm-debug.log
+/credito-front/yarn-error.log
+
+# IDEs and editors
+/credito-front/.idea/
+/credito-front/.project
+/credito-front/.classpath
+/credito-front/.c9/
+/credito-front/*.launch
+/credito-front/.settings/
+/credito-front/*.sublime-workspace
+
+# Visual Studio Code
+/credito-front/.vscode/*
+/credito-front/!.vscode/settings.json
+/credito-front/!.vscode/tasks.json
+/credito-front/!.vscode/launch.json
+/credito-front/!.vscode/extensions.json
+/credito-front/.history/*
+
+# Miscellaneous
+/credito-front/.angular/cache
+/credito-front/.sass-cache/
+/credito-front/connect.lock
+/credito-front/coverage
+/credito-front/libpeerconnection.log
+/credito-front/testem.log
+/credito-front/typings
+
+# System files
+/credito-front/.DS_Store
+/credito-front/Thumbs.db
