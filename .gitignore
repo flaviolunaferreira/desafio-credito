@@ -1,77 +1,137 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Java/Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.iml
+.idea/
+*.swp
+*.swo
+*.DS_Store
 
-# Compiled output
-/credito-front/dist
-/credito-front/tmp
-/credito-front/out-tsc
-/credito-front/bazel-out
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
 
-# Node
-/credito-front/node_modules
-/credito-front/npm-debug.log
-/credito-front/yarn-error.log
+# Spring Boot
+*.properties.bak
+*.yml.bak
+spring.log
 
-# IDEs and editors
-/credito-front/.idea/
-/credito-front/.project
-/credito-front/.classpath
-/credito-front/.c9/
-/credito-front/*.launch
-/credito-front/.settings/
-/credito-front/*.sublime-workspace
+# Node.js/Angular (credito-frontend)
+node_modules/
+dist/
+*.log
+npm-debug.log*
+yarn-error.log
+.angular/
+.cache/
+coverage/
+e2e/.cache/
+*.tsbuildinfo
 
-# Visual Studio Code
-/credito-front/.vscode/*
-/credito-front/!.vscode/settings.json
-/credito-front/!.vscode/tasks.json
-/credito-front/!.vscode/launch.json
-/credito-front/!.vscode/extensions.json
-/credito-front/.history/*
+# Python (credito-analitico)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.egg-info/
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
 
-# Miscellaneous
-/credito-front/.angular/cache
-/credito-front/.sass-cache/
-/credito-front/connect.lock
-/credito-front/coverage
-/credito-front/libpeerconnection.log
-/credito-front/testem.log
-/credito-front/typings
+# Docker
+docker-compose.override.yml
+*.dockerignore
+*.env
+*.bak
+*.swp
+*~
 
-# System files
-/credito-front/.DS_Store
-/credito-front/Thumbs.db
+# IDEs and Editors
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
 
-HELP.md
-/api/target/
-!/api/.mvn/wrapper/maven-wrapper.jar
-!**/api//src/main/**/target/
-!**/api//src/test/**/target/
+# Operating Systems
+.DS_Store
+Thumbs.db
+desktop.ini
 
-### STS ###
-/api/.apt_generated
-/api/.classpath
-/api/.factorypath
-/api/.project
-/api/.settings
-/api/.springBeans
-/api/.sts4-cache
+# General
+*.bak
+*.tmp
+*.temp
+*.swp
+*~
+*.log
+*.cache
+*.pid
+*.seed
+*.rdb
+*.tgz
+*.zip
+*.tar.gz
 
-### IntelliJ IDEA ###
-/api/.idea
-/api/*.iws
-/api/*.iml
-/api/*.ipr
+# Build and Test Artifacts
+build/
+out/
+bin/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.spec
 
-### NetBeans ###
-/api/nbproject/private/
-/api/nbbuild/
-/api/dist/
-/api/nbdist/
-/api/.nb-gradle/
-/api/build/
-!**/api/src/main/**/build/
-!**/api/src/test/**/build/
+# Dependency Directories
+vendor/
+.bower-cache/
+.bower-registry/
+.bower-tmp/
 
-### VS Code ###
-/api/.vscode/
+# Local Configuration Files
+*.local
+*.local.*
+*.cfg
+*.conf
+*.secret
+*.key
+*.pem
+*.crt
 
+# Other
+*.swp
+*.swo
+*.swn
+*.swo
+*.swn
+*.swo
+/auditoria/auditoria/.gitignore
+/notificacoes/notificacoes/.gitignore
