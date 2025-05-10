@@ -125,13 +125,3 @@ vendor/
 *.key
 *.pem
 *.crt
-
-# Other
-*.swp
-*.swo
-*.swn
-*.swo
-*.swn
-*.swo
-/auditoria/auditoria/.gitignore
-/notificacoes/notificacoes/.gitignore
