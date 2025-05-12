@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.desafio</groupId>
-	<artifactId>credito-api</artifactId>
+	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>credito-api</name>
 	<description>API de consulta e cadastro de créditos</description>

@@ -14,6 +14,13 @@ public class CreditoEntity {
     @Id
     private String numeroCredito;
     private String numeroNfse;
-    private BigDecimal valor;
-    private LocalDate dataEmissao;
+    private LocalDate dataConstituicao;
+    private BigDecimal valorIssqn;
+    private String tipoCredito;
+    private boolean simplesNacional;
+    private BigDecimal aliquota;
+    private BigDecimal valorFaturado;
+    private BigDecimal valorDeducao;
+    private BigDecimal baseCalculo;
+
 }
