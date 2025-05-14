@@ -110,9 +110,9 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build and Push Docker Images
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-api:latest ./credito-api
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-auditoria:latest ./credito-auditoria
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-notificacoes:latest ./credito-notificacoes
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-api:latest ./api/api
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-auditoria:latest ./auditoria/auditoria
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-notificacoes:latest ./notificacoes/notificacao
         docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-frontend:latest ./credito-frontend
         docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-analitico:latest ./credito-analitico
         docker push ${{ secrets.DOCKER_USERNAME }}/credito-api:latest
@@ -154,22 +154,19 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "kafka-topics", "--list", "--bootstrap-server", "localhost:9092"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
 
   mongodb:
     image: mongo:latest
+    ports:
+      - "27017:27017"
     environment:
-      MONGO_INITDB_DATABASE: credito_db
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.runCommand('ping').ok"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+
 
   db:
     image: postgres:latest
@@ -181,7 +178,11 @@ services:
     command: ["postgres", "-c", "log_statement=all"]
     networks:
       - app-network
-
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "credito_user", "-d", "credito_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
 
   api:
     image: ${DOCKER_USERNAME}/credito-api:latest
@@ -189,12 +190,14 @@ services:
       context: ./api/api
       dockerfile: Dockerfile
     depends_on:
-      mongodb:
+      db:
         condition: service_healthy
       kafka:
         condition: service_healthy
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/credito_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/credito_db
+      SPRING_DATASOURCE_USERNAME: credito_user
+      SPRING_DATASOURCE_PASSWORD: senha123
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_PROFILES_ACTIVE: dev
     networks:
@@ -212,10 +215,8 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-      zookeeper:
-        condition: service_healthy
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/credito_db
+      SPRING_DATA_MONGODB_URI: mongodb://admin:senha123@mongodb:27017/credito_db
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_PROFILES_ACTIVE: dev
     networks:
@@ -1310,8 +1311,10 @@ Arquivo: auditoria\auditoria\src\main\resources\application-dev.yml
 spring:
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/credito_db
+      uri: mongodb://mongodb:27017/admin
       database: credito_db
+      username: admin
+      password: admin123
 
   kafka:
     bootstrap-servers: kafka:9092
@@ -1364,8 +1367,10 @@ Arquivo: auditoria\auditoria\target\classes\application-dev.yml
 spring:
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/credito_db
+      uri: mongodb://mongodb:27017/admin
       database: credito_db
+      username: admin
+      password: admin123
 
   kafka:
     bootstrap-servers: kafka:9092

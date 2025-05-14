@@ -38,12 +38,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin123
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--username", "admin", "--password", "admin123"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+
 
   db:
     image: postgres:latest
