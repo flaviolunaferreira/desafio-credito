@@ -101,9 +101,9 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build and Push Docker Images
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-api:latest ./credito-api
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-auditoria:latest ./credito-auditoria
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-notificacoes:latest ./credito-notificacoes
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-api:latest ./api/api
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-auditoria:latest ./auditoria/auditoria
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-notificacoes:latest ./notificacoes/notificacao
         docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-frontend:latest ./credito-frontend
         docker build -t ${{ secrets.DOCKER_USERNAME }}/credito-analitico:latest ./credito-analitico
         docker push ${{ secrets.DOCKER_USERNAME }}/credito-api:latest

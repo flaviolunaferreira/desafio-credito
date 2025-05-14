@@ -2,9 +2,9 @@ import os
 from pathlib import Path
 
 # Configurações personalizáveis
-DIRETORIO_RAIZ = "C:/Users/Flavio/Desktop/Projeto/desafio-credito"  # Substitua pelo caminho real da sua pasta
+DIRETORIO_RAIZ = "C:/Users/The Coyote/Desktop/Projetos/desafio-credito"  # Substitua pelo caminho real da sua pasta
 ARQUIVO_SAIDA = "todos_os_arquivos.txt"
-EXTENSOES_PERMITIDAS = [".java", ".xml", ".yml", "Dockerfile"]  # Extensões a serem incluídas
+EXTENSOES_PERMITIDAS = [".java", ".xml", ".yml", "Dockerfile" ".sh"]  # Extensões a serem incluídas
 INCLUIR_CAMINHO_RELATIVO = True  # Define se o caminho relativo será incluído no nome do arquivo
 CODIFICACOES_POSSIVEIS = ["utf-8", "latin-1"]  # Lista de codificações a tentar, em ordem de preferência
 

@@ -1,19 +1,19 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://db:5432/credito_db
-    username: credito_user
-    password: senha123
-  jpa:
-    hibernate:
-        ddl-auto: update
-    show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/admin
+      database: credito_db
+      username: admin
+      password: admin123
 
   kafka:
     bootstrap-servers: kafka:9092
     consumer:
-      group-id: notificacoes-grupo
+      group-id: auditoria-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: the.coyote.api.model
+        spring.json.trusted.packages: the.coyote.auditoria.model
+server:
+  port: 8082

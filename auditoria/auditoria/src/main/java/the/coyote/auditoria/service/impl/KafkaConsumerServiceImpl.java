@@ -1,8 +1,10 @@
 package the.coyote.auditoria.service.impl;
 
 import java.time.LocalDateTime;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
 import lombok.RequiredArgsConstructor;
 import the.coyote.auditoria.model.ConsultaConcorrenteMessage;
 import the.coyote.auditoria.model.ConsultaLogEntity;
@@ -16,20 +18,19 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService {
 
     private final ConsultaLogRepository repository;
 
-    @Override
-    @KafkaListener(topics = "consulta-log", groupId = "auditoria-grupo")
+    @KafkaListener(topics = "consulta-log", groupId = "auditoria-group")
     public void consumeConsultaLog(ConsultaLogMessage message) {
         ConsultaLogEntity log = new ConsultaLogEntity();
-        log.setTimestamp(message.getTimestamp());
+        log.setTimestamp(LocalDateTime.now());
         log.setNumeroNfse(message.getNumeroNfse());
         log.setNumeroCredito(message.getNumeroCredito());
         log.setIpCliente(message.getIpCliente());
         log.setSucesso(message.isSucesso());
         repository.save(log);
+        System.out.println("Consulta log recebida: " + message);
     }
 
-    @Override
-    @KafkaListener(topics = "consulta-concorrente", groupId = "auditoria-grupo")
+    @KafkaListener(topics = "consulta-concorrente", groupId = "auditoria-group")
     public void consumeConsultaConcorrente(ConsultaConcorrenteMessage message) {
         ConsultaLogEntity log = new ConsultaLogEntity();
         log.setTimestamp(LocalDateTime.now());

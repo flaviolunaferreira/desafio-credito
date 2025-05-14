@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://db:5432/credito_db
-    username: admin
-    password: admin123
+    username: credito_user
+    password: senha123
   jpa:
     hibernate:
       ddl-auto: update

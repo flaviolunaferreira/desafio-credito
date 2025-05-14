@@ -1,14 +1,13 @@
 package the.coyote.auditoria.model;
 
-import java.time.LocalDateTime;
-
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-    public class ConsultaLogMessage {
-        private LocalDateTime timestamp;
-        private String numeroNfse;
-        private String numeroCredito;
-        private String ipCliente;
-        private boolean sucesso;
-    }
+@NoArgsConstructor
+public class ConsultaLogMessage {
+    private String numeroNfse;
+    private String numeroCredito;
+    private String ipCliente;
+    private boolean sucesso;
+}
