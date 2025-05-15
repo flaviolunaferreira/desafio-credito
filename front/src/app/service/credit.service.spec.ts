@@ -1,16 +1,24 @@
-/* tslint:disable:no-unused-variable */
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { TestBed, async, inject } from '@angular/core/testing';
-import { CreditService } from './credit.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class CreditService {
+  private apiUrl = 'http://localhost:8080/api/v1/creditos';
 
-describe('Service: Credit', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [CreditService]
+  constructor(private http: HttpClient) { }
+
+  getCredits(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  addCredit(credit: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-Forwarded-For': '192.168.1.1' // Simula o IP do cliente
     });
-  });
-
-  it('should ...', inject([CreditService], (service: CreditService) => {
-    expect(service).toBeTruthy();
-  }));
-});
+    return this.http.post<any>(this.apiUrl, credit, { headers });
+  }
+}

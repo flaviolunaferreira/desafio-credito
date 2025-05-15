@@ -2,7 +2,8 @@ package the.coyote.notificacoes.service;
 
 import org.springframework.stereotype.Service;
 
-import the.coyote.notificacoes.service.impl.KafkaConsumerServiceImpl.CreditoCriadoMessage;
+import the.coyote.notificacoes.model.CreditoCriadoMessage;
+
 
 @Service
 public interface KafkaConsumerService {

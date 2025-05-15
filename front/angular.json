@@ -3,13 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "painel-creditos": {
+    "front": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,14 +13,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/painel-creditos",
+            "outputPath": "dist/front",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "assets": [],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -55,10 +53,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "painel-creditos:build:production"
+              "buildTarget": "front:build:production"
             },
             "development": {
-              "buildTarget": "painel-creditos:build:development"
+              "buildTarget": "front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -67,19 +65,9 @@
           "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": ["zone.js"],
-            "tsConfig": "tsconfig.spec.json",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": []
-          }
+          "builder": "@angular-devkit/build-angular:karma"
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

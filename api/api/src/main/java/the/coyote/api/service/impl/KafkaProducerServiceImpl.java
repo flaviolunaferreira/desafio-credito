@@ -17,7 +17,6 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
     private static final Logger logger = LoggerFactory.getLogger(KafkaProducerServiceImpl.class);
     private static final String CONSULTA_LOG_TOPIC = "consulta-log";
     private static final String CONSULTA_CONCORRENTE_TOPIC = "consulta-concorrente";
-
     private static final String CREDITO_CRIADO_TOPIC = "credito-criado";
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
@@ -61,6 +60,7 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
         CreditoCriadoMessage message = new CreditoCriadoMessage();
         message.setNumeroCredito(credito.getNumeroCredito());
         message.setIpCliente(ipCliente);
+
         try {
             kafkaTemplate.send(CREDITO_CRIADO_TOPIC, message);
             logger.info("Mensagem de crédito criado enviada para o tópico {}: {}", CREDITO_CRIADO_TOPIC, message);

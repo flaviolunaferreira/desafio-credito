@@ -1,50 +1,102 @@
-<div class="p-4">
-  <h1>Gerenciar Créditos</h1>
-  <mat-card class="mb-4">
-    <h3>Adicionar Crédito</h3>
-    <form (ngSubmit)="addCredit()">
-      <mat-form-field>
-        <mat-label>Número do Crédito</mat-label>
-        <input matInput [(ngModel)]="newCredit.numeroCredito" name="numeroCredito" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Número da NFS-e</mat-label>
-        <input matInput [(ngModel)]="newCredit.numeroNfse" name="numeroNfse" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Valor ISSQN</mat-label>
-        <input matInput type="number" [(ngModel)]="newCredit.valorIssqn" name="valorIssqn" required>
-      </mat-form-field>
-      <button mat-raised-button type="submit">Adicionar</button>
-    </form>
-  </mat-card>
-  <mat-card class="mb-4">
-    <h3>Consultar por NFS-e</h3>
-    <form (ngSubmit)="searchCredits()">
-      <mat-form-field>
-        <mat-label>Número da NFS-e</mat-label>
-        <input matInput [(ngModel)]="searchNfse" name="searchNfse" required>
-      </mat-form-field>
-      <button mat-raised-button type="submit">Consultar</button>
-    </form>
-  </mat-card>
-  <mat-card>
-    <h3>Lista de Créditos</h3>
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th>Número do Crédito</th>
-          <th>Número da NFS-e</th>
-          <th>Valor ISSQN</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let credit of credits">
-          <td>{{ credit.numeroCredito }}</td>
-          <td>{{ credit.numeroNfse }}</td>
-          <td>{{ credit.valorIssqn }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </mat-card>
+<div class="container py-4">
+  <h1 class="text-center mb-4">Cadastro de Créditos</h1>
+
+  <form [formGroup]="creditForm" (ngSubmit)="addCredit()" class="card p-4 mx-auto" style="max-width: 800px;">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="numeroCredito" class="form-label">Número do Crédito</label>
+        <input id="numeroCredito" formControlName="numeroCredito" type="text" class="form-control" [ngClass]="{'is-invalid': creditForm.get('numeroCredito')?.invalid && creditForm.get('numeroCredito')?.touched}" />
+        <div *ngIf="creditForm.get('numeroCredito')?.invalid && creditForm.get('numeroCredito')?.touched" class="invalid-feedback">Número do crédito é obrigatório.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="numeroNfse" class="form-label">Número da NFS-e</label>
+        <input id="numeroNfse" formControlName="numeroNfse" type="text" class="form-control" [ngClass]="{'is-invalid': creditForm.get('numeroNfse')?.invalid && creditForm.get('numeroNfse')?.touched}" />
+        <div *ngIf="creditForm.get('numeroNfse')?.invalid && creditForm.get('numeroNfse')?.touched" class="invalid-feedback">Número da NFS-e é obrigatório.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="dataConstituicao" class="form-label">Data de Constituição</label>
+        <input id="dataConstituicao" formControlName="dataConstituicao" type="date" class="form-control" [ngClass]="{'is-invalid': creditForm.get('dataConstituicao')?.invalid && creditForm.get('dataConstituicao')?.touched}" />
+        <div *ngIf="creditForm.get('dataConstituicao')?.invalid && creditForm.get('dataConstituicao')?.touched" class="invalid-feedback">Data de constituição é obrigatória.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="valorIssqn" class="form-label">Valor ISSQN</label>
+        <input id="valorIssqn" formControlName="valorIssqn" type="number" step="0.01" class="form-control" [ngClass]="{'is-invalid': creditForm.get('valorIssqn')?.invalid && creditForm.get('valorIssqn')?.touched}" />
+        <div *ngIf="creditForm.get('valorIssqn')?.invalid && creditForm.get('valorIssqn')?.touched" class="invalid-feedback">Valor ISSQN deve ser maior que 0.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="tipoCredito" class="form-label">Tipo de Crédito</label>
+        <select id="tipoCredito" formControlName="tipoCredito" class="form-select" [ngClass]="{'is-invalid': creditForm.get('tipoCredito')?.invalid && creditForm.get('tipoCredito')?.touched}">
+          <option value="">Selecione...</option>
+          <option value="ISSQN">ISSQN</option>
+          <option value="Outros">Outros</option>
+        </select>
+        <div *ngIf="creditForm.get('tipoCredito')?.invalid && creditForm.get('tipoCredito')?.touched" class="invalid-feedback">Tipo de crédito é obrigatório.</div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-check mt-4">
+          <input id="simplesNacional" formControlName="simplesNacional" type="checkbox" class="form-check-input" />
+          <label for="simplesNacional" class="form-check-label">Simples Nacional</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="aliquota" class="form-label">Alíquota (%)</label>
+        <input id="aliquota" formControlName="aliquota" type="number" step="0.01" class="form-control" [ngClass]="{'is-invalid': creditForm.get('aliquota')?.invalid && creditForm.get('aliquota')?.touched}" />
+        <div *ngIf="creditForm.get('aliquota')?.invalid && creditForm.get('aliquota')?.touched" class="invalid-feedback">Alíquota deve ser maior ou igual a 0.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="valorFaturado" class="form-label">Valor Faturado</label>
+        <input id="valorFaturado" formControlName="valorFaturado" type="number" step="0.01" class="form-control" [ngClass]="{'is-invalid': creditForm.get('valorFaturado')?.invalid && creditForm.get('valorFaturado')?.touched}" />
+        <div *ngIf="creditForm.get('valorFaturado')?.invalid && creditForm.get('valorFaturado')?.touched" class="invalid-feedback">Valor faturado deve ser maior ou igual a 0.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="valorDeducao" class="form-label">Valor Dedução</label>
+        <input id="valorDeducao" formControlName="valorDeducao" type="number" step="0.01" class="form-control" [ngClass]="{'is-invalid': creditForm.get('valorDeducao')?.invalid && creditForm.get('valorDeducao')?.touched}" />
+        <div *ngIf="creditForm.get('valorDeducao')?.invalid && creditForm.get('valorDeducao')?.touched" class="invalid-feedback">Valor dedução deve ser maior ou igual a 0.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="baseCalculo" class="form-label">Base de Cálculo</label>
+        <input id="baseCalculo" formControlName="baseCalculo" type="number" step="0.01" class="form-control" [ngClass]="{'is-invalid': creditForm.get('baseCalculo')?.invalid && creditForm.get('baseCalculo')?.touched}" />
+        <div *ngIf="creditForm.get('baseCalculo')?.invalid && creditForm.get('baseCalculo')?.touched" class="invalid-feedback">Base de cálculo deve ser maior ou igual a 0.</div>
+      </div>
+    </div>
+    <div class="mt-4 text-end">
+      <button type="submit" [disabled]="creditForm.invalid" class="btn btn-primary">Adicionar Crédito</button>
+    </div>
+  </form>
+
+  <div class="mt-5">
+    <h2 class="h4 mb-3">Créditos Cadastrados</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Número do Crédito</th>
+            <th>Número da NFS-e</th>
+            <th>Data de Constituição</th>
+            <th>Valor ISSQN</th>
+            <th>Tipo de Crédito</th>
+            <th>Simples Nacional</th>
+            <th>Alíquota</th>
+            <th>Valor Faturado</th>
+            <th>Valor Dedução</th>
+            <th>Base de Cálculo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let credit of credits">
+            <td>{{ credit.numeroCredito }}</td>
+            <td>{{ credit.numeroNfse }}</td>
+            <td>{{ credit.dataConstituicao | date:'dd/MM/yyyy' }}</td>
+            <td>{{ credit.valorIssqn | number:'1.2-2' }}</td>
+            <td>{{ credit.tipoCredito }}</td>
+            <td>{{ credit.simplesNacional ? 'Sim' : 'Não' }}</td>
+            <td>{{ credit.aliquota | number:'1.2-2' }}</td>
+            <td>{{ credit.valorFaturado | number:'1.2-2' }}</td>
+            <td>{{ credit.valorDeducao | number:'1.2-2' }}</td>
+            <td>{{ credit.baseCalculo | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

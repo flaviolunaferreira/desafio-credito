@@ -1,4 +1,4 @@
-package the.coyote.api.model;
+package the.coyote.notificacoes.model;
 
 import lombok.Data;
 

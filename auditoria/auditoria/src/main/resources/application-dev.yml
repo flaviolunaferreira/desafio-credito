@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/admin
+      uri: mongodb://admin:admin123@mongodb:27017/credito_db?authSource=admin
       database: credito_db
       username: admin
       password: admin123
@@ -17,6 +17,9 @@ spring:
         spring:
           json:
             trusted:
-              packages: the.coyote.auditoria.model
+              packages: the.coyote.api.model,the.coyote.notificacoes.service.impl,java.util,java.lang
+          deserializer:
+            value:
+              delegate: org.springframework.kafka.support.serializer.JsonDeserializer        
 server:
   port: 8082

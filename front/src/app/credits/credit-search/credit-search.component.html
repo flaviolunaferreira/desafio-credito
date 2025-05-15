@@ -1,0 +1,72 @@
+<div class="container py-4">
+  <h1 class="text-center mb-4">Consulta de Créditos</h1>
+
+  <form (ngSubmit)="searchCredits()" class="card p-4 mx-auto" style="max-width: 800px;">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="searchType" class="form-label">Tipo de Consulta</label>
+        <select id="searchType" [(ngModel)]="searchType" name="searchType" class="form-select">
+          <option value="nfse">Número da NFS-e</option>
+          <option value="credito">Número do Crédito</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="searchValue" class="form-label">Valor da Pesquisa</label>
+        <input id="searchValue" [(ngModel)]="searchValue" name="searchValue" type="text" class="form-control" placeholder="Digite o número" />
+      </div>
+    </div>
+    <div class="mt-4 text-end">
+      <button type="submit" class="btn btn-primary" [disabled]="!searchValue">Pesquisar</button>
+    </div>
+  </form>
+
+  <div class="mt-5" *ngIf="searchResults.length > 0 || singleResult">
+    <h2 class="h4 mb-3">Resultados da Consulta</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Número do Crédito</th>
+            <th>Número da NFS-e</th>
+            <th>Data de Constituição</th>
+            <th>Valor ISSQN</th>
+            <th>Tipo de Crédito</th>
+            <th>Simples Nacional</th>
+            <th>Alíquota</th>
+            <th>Valor Faturado</th>
+            <th>Valor Dedução</th>
+            <th>Base de Cálculo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="searchResults.length > 0">
+            <tr *ngFor="let credit of searchResults">
+              <td>{{ credit.numeroCredito }}</td>
+              <td>{{ credit.numeroNfse }}</td>
+              <td>{{ credit.dataConstituicao | date:'dd/MM/yyyy' }}</td>
+              <td>{{ credit.valorIssqn | number:'1.2-2' }}</td>
+              <td>{{ credit.tipoCredito }}</td>
+              <td>{{ credit.simplesNacional ? 'Sim' : 'Não' }}</td>
+              <td>{{ credit.aliquota | number:'1.2-2' }}</td>
+              <td>{{ credit.valorFaturado | number:'1.2-2' }}</td>
+              <td>{{ credit.valorDeducao | number:'1.2-2' }}</td>
+              <td>{{ credit.baseCalculo | number:'1.2-2' }}</td>
+            </tr>
+          </ng-container>
+          <tr *ngIf="singleResult">
+            <td>{{ singleResult.numeroCredito }}</td>
+            <td>{{ singleResult.numeroNfse }}</td>
+            <td>{{ singleResult.dataConstituicao | date:'dd/MM/yyyy' }}</td>
+            <td>{{ singleResult.valorIssqn | number:'1.2-2' }}</td>
+            <td>{{ singleResult.tipoCredito }}</td>
+            <td>{{ singleResult.simplesNacional ? 'Sim' : 'Não' }}</td>
+            <td>{{ singleResult.aliquota | number:'1.2-2' }}</td>
+            <td>{{ singleResult.valorFaturado | number:'1.2-2' }}</td>
+            <td>{{ singleResult.valorDeducao | number:'1.2-2' }}</td>
+            <td>{{ singleResult.baseCalculo | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
