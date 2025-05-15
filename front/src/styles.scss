@@ -1,0 +1,29 @@
+@use 'tailwindcss/base';
+@use 'tailwindcss/components';
+@use 'tailwindcss/utilities';
+
+body {
+  margin: 0;
+  font-family: 'Fira Code', monospace;
+  background-color: #282a36;
+  color: #f8f8f2;
+}
+
+.mat-mdc-card {
+  background-color: #44475a;
+  color: #f8f8f2;
+}
+
+.mat-mdc-button {
+  background-color: #bd93f9 !important;
+  color: #282a36 !important;
+}
+
+.mat-mdc-input-element {
+  color: #f8f8f2 !important;
+  background-color: #44475a !important;
+}
+
+h1, h2, h3 {
+  color: #8be9fd;
+}

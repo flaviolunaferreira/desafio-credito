@@ -38,6 +38,13 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin123
+    networks:
+      - app-network  
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok", "--quiet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 
   db:
@@ -88,11 +95,18 @@ services:
       kafka:
         condition: service_healthy
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://admin:senha123@mongodb:27017/credito_db
+      SPRING_DATA_MONGODB_URI: mongodb://admin:admin123@mongodb:27017/credito_db
+      spring.DOCKER_USERNAME: admin
+      spring.DOCKER_PASSWORD: admin123
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       SPRING_PROFILES_ACTIVE: dev
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok", "--quiet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
 
   notificacoes:
     image: ${DOCKER_USERNAME}/credito-notificacoes:latest

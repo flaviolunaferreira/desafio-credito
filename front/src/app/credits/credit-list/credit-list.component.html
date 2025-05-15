@@ -1,0 +1,50 @@
+<div class="p-4">
+  <h1>Gerenciar Créditos</h1>
+  <mat-card class="mb-4">
+    <h3>Adicionar Crédito</h3>
+    <form (ngSubmit)="addCredit()">
+      <mat-form-field>
+        <mat-label>Número do Crédito</mat-label>
+        <input matInput [(ngModel)]="newCredit.numeroCredito" name="numeroCredito" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Número da NFS-e</mat-label>
+        <input matInput [(ngModel)]="newCredit.numeroNfse" name="numeroNfse" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Valor ISSQN</mat-label>
+        <input matInput type="number" [(ngModel)]="newCredit.valorIssqn" name="valorIssqn" required>
+      </mat-form-field>
+      <button mat-raised-button type="submit">Adicionar</button>
+    </form>
+  </mat-card>
+  <mat-card class="mb-4">
+    <h3>Consultar por NFS-e</h3>
+    <form (ngSubmit)="searchCredits()">
+      <mat-form-field>
+        <mat-label>Número da NFS-e</mat-label>
+        <input matInput [(ngModel)]="searchNfse" name="searchNfse" required>
+      </mat-form-field>
+      <button mat-raised-button type="submit">Consultar</button>
+    </form>
+  </mat-card>
+  <mat-card>
+    <h3>Lista de Créditos</h3>
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th>Número do Crédito</th>
+          <th>Número da NFS-e</th>
+          <th>Valor ISSQN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let credit of credits">
+          <td>{{ credit.numeroCredito }}</td>
+          <td>{{ credit.numeroNfse }}</td>
+          <td>{{ credit.valorIssqn }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card>
+</div>
