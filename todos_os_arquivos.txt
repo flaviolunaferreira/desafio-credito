@@ -1,6 +1,7 @@
 Relatório de arquivos do diretório: C:/Users/The Coyote/Desktop/Projetos/desafio-credito
 Data de geração: 1747096167.7136087
-Extensões permitidas: .java, .xml, .yml, .sh, .html, .ts, .json
+Extensões permitidas: .java, .xml, .yml, .sh, .html, .ts, .json, .conf
+Arquivos especiais: Dockerfile
 
 
 ==================================================
@@ -296,6 +297,24 @@ Arquivo: package-lock.json
   "requires": true,
   "packages": {}
 }
+
+
+
+==================================================
+Arquivo: api\api\Dockerfile
+==================================================
+
+# Etapa 1: construir o JAR com Maven
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Etapa 2: criar imagem leve apenas com o JAR
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
 
 
@@ -1003,6 +1022,24 @@ class ApiApplicationTests {
 
 
 ==================================================
+Arquivo: auditoria\auditoria\Dockerfile
+==================================================
+
+# Etapa 1: construir o JAR com Maven
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Etapa 2: criar imagem leve apenas com o JAR
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+
+==================================================
 Arquivo: auditoria\auditoria\pom.xml
 ==================================================
 
@@ -1417,6 +1454,24 @@ Arquivo: auditoria\auditoria\src\main\resources\application.yml
 spring:
   profiles:
     active: dev
+
+
+==================================================
+Arquivo: front\Dockerfile
+==================================================
+
+FROM node:22 AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build --configuration=production
+
+FROM nginx:alpine
+COPY --from=build /app/dist/front/browser /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
 
 
 ==================================================
@@ -17740,6 +17795,24 @@ export class CreditService {
 
 
 ==================================================
+Arquivo: notificacoes\notificacoes\Dockerfile
+==================================================
+
+# Etapa 1: construir o JAR com Maven
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Etapa 2: criar imagem leve apenas com o JAR
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+
+==================================================
 Arquivo: notificacoes\notificacoes\pom.xml
 ==================================================
 
@@ -18094,7 +18167,7 @@ class NotificacoesApplicationTests {
 
 ==================================================
 Resumo:
-Total de arquivos processados: 72
+Total de arquivos processados: 76
 Arquivos com erro: 0
-Arquivos processados com sucesso: 72
+Arquivos processados com sucesso: 76
 ==================================================

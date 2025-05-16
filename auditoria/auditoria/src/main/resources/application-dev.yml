@@ -1,25 +1,19 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://admin:admin123@mongodb:27017/credito_db?authSource=admin
-      database: credito_db
-      username: admin
-      password: admin123
-
+      uri: mongodb://admin:admin123@mongodb:27017/credito_db?authSource=admin&retryWrites=true&w=majority
+      auto-index-creation: true
   kafka:
     bootstrap-servers: kafka:9092
     consumer:
-      group-id: auditoria-group
-      auto-offset-reset: earliest
+      group-id: auditoria-grupo
+      auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      enable-auto-commit: false
       properties:
-        spring:
-          json:
-            trusted:
-              packages: the.coyote.api.model,the.coyote.notificacoes.service.impl,java.util,java.lang
-          deserializer:
-            value:
-              delegate: org.springframework.kafka.support.serializer.JsonDeserializer        
-server:
-  port: 8082
+        spring.json.trusted.packages: the.coyote.api.model,the.coyote.auditoria.model
+logging:
+  level:
+    org.mongodb: WARN
+    org.springframework.data.mongodb: WARN

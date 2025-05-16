@@ -5,7 +5,8 @@ import fnmatch
 # Configurações personalizáveis
 DIRETORIO_RAIZ = "C:/Users/The Coyote/Desktop/Projetos/desafio-credito"  # Substitua pelo caminho real da sua pasta
 ARQUIVO_SAIDA = "todos_os_arquivos.txt"
-EXTENSOES_PERMITIDAS = [".java", ".xml", ".yml", ".sh", ".html", ".ts", ".json"]  # Extensões a serem incluídas
+EXTENSOES_PERMITIDAS = [".java", ".xml", ".yml", ".sh", ".html", ".ts", ".json", ".conf"]  # Extensões a serem incluídas
+ARQUIVOS_ESPECIAIS = ["Dockerfile"]  # Arquivos sem extensão
 INCLUIR_CAMINHO_RELATIVO = True  # Define se o caminho relativo será incluído no nome do arquivo
 CODIFICACOES_POSSIVEIS = ["utf-8", "latin-1"]  # Lista de codificações a tentar, em ordem de preferência
 GITIGNORE_PATH = os.path.join(DIRETORIO_RAIZ, ".gitignore")  # Caminho para o arquivo .gitignore
@@ -33,14 +34,17 @@ def deve_ignorar(caminho, ignore_patterns):
         if pattern.endswith("/"):
             # Para diretórios, verifica se o caminho começa com o padrão
             if caminho_relativo.startswith(pattern) or f"{caminho_relativo}/".startswith(pattern):
+                print(f"Ignorando {caminho_relativo} (padrão de diretório: {pattern})")
                 return True
         else:
             # Para arquivos, usa fnmatch para correspondência de padrões
             if fnmatch.fnmatch(caminho_relativo, pattern) or fnmatch.fnmatch(os.path.basename(caminho), pattern):
+                print(f"Ignorando {caminho_relativo} (padrão de arquivo: {pattern})")
                 return True
             # Verifica se o padrão corresponde a um diretório no caminho
             for part in caminho_relativo.split("/"):
                 if fnmatch.fnmatch(part, pattern):
+                    print(f"Ignorando {caminho_relativo} (parte do caminho: {pattern})")
                     return True
     return False
 
@@ -76,7 +80,8 @@ def processar_arquivos(diretorio, arquivo_saida):
         # Escrever um cabeçalho inicial
         saida.write(f"Relatório de arquivos do diretório: {diretorio}\n")
         saida.write(f"Data de geração: {os.path.getctime(diretorio)}\n")
-        saida.write(f"Extensões permitidas: {', '.join(EXTENSOES_PERMITIDAS)}\n\n")
+        saida.write(f"Extensões permitidas: {', '.join(EXTENSOES_PERMITIDAS)}\n")
+        saida.write(f"Arquivos especiais: {', '.join(ARQUIVOS_ESPECIAIS)}\n\n")
 
         # Percorrer o diretório raiz e subpastas
         for root, dirs, files in os.walk(diretorio):
@@ -84,8 +89,9 @@ def processar_arquivos(diretorio, arquivo_saida):
             dirs[:] = [d for d in dirs if not deve_ignorar(os.path.join(root, d), ignore_patterns)]
             
             for arquivo in sorted(files):  # Ordenar arquivos para consistência
-                # Verificar se o arquivo tem uma extensão permitida
-                if any(arquivo.endswith(ext) for ext in EXTENSOES_PERMITIDAS):
+                # Verificar se o arquivo tem uma extensão permitida ou é um arquivo especial
+                arquivo_lower = arquivo.lower()
+                if any(arquivo_lower.endswith(ext.lower()) for ext in EXTENSOES_PERMITIDAS) or arquivo in ARQUIVOS_ESPECIAIS:
                     caminho_completo = os.path.join(root, arquivo)
                     
                     # Verificar se o arquivo deve ser ignorado pelo .gitignore
@@ -133,7 +139,7 @@ def main():
     total, erros = processar_arquivos(DIRETORIO_RAIZ, ARQUIVO_SAIDA)
 
     if total == 0:
-        print("Nenhum arquivo encontrado com as extensões especificadas.")
+        print("Nenhum arquivo encontrado com as extensões ou arquivos especiais especificados.")
     else:
         print(f"Processamento concluído!")
         print(f"Total de arquivos encontrados: {total}")

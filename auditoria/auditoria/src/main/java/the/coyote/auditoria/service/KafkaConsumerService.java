@@ -1,17 +1,10 @@
 package the.coyote.auditoria.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.kafka.support.Acknowledgment;
+import the.coyote.api.model.ConsultaConcorrenteMessage;
+import the.coyote.api.model.ConsultaLogMessage;
 
-import the.coyote.auditoria.model.ConsultaConcorrenteMessage;
-import the.coyote.auditoria.model.ConsultaLogMessage;
-
-
-@Service
 public interface KafkaConsumerService {
-
-    void consumeConsultaLog(ConsultaLogMessage mesage);
-    void consumeConsultaConcorrente(ConsultaConcorrenteMessage message);
-
-    
-
+    void consumeConsultaLog(ConsultaLogMessage message, Acknowledgment ack);
+    void consumeConsultaConcorrente(ConsultaConcorrenteMessage message, Acknowledgment ack);
 }

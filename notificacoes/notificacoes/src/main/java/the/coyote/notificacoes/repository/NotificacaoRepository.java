@@ -6,4 +6,6 @@ import the.coyote.notificacoes.model.NotificacaoEntity;
 
 public interface NotificacaoRepository extends JpaRepository<NotificacaoEntity, String> {
 
+    String findByNumeroCredito(String numeroCredito);
+
 }
